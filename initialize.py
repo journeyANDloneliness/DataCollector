@@ -4,7 +4,7 @@ import random
 #import threading
 import discord
 from discord.ext import commands
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
 import json
 import datetime
 #from replit import db
@@ -26,13 +26,15 @@ if not col_sett:
   col_sett = q_set
 
 
-#load_dotenv()
+load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 if 'pre' not in col_sett:
   col_sett['pre'] ='!'
 
 clientintents  = discord.Intents.all()
 bot = commands.Bot(command_prefix=col_sett['pre'])
+#bot.login("akystpobv939uGegax44hb_C5qKcX91C")
+
 
 if 'channel' not in col_sett:
   col_sett['channel'] = []

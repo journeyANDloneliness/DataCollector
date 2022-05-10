@@ -28,7 +28,7 @@ class MessageReview:
   def add_listener(self,l):
     self.listeners.append(l)
 
-  def on_create(self, message, eo=None):           
+  async def on_create(self, message, eo=None):           
     self.content= f"#{'='*29}\n```usr:{message.author.id} user:{message.author} id:{col_sett['last_id']}```\n{'='*29}#\n {message.content}"
     self.job_text=message.content
     #a message which this review listen to the their change
@@ -36,7 +36,7 @@ class MessageReview:
     print(bl_q(self.content))      
     self.message=await self.channel.send(bl_q(self.content))
 
-  def on_message_edit(self, payload, eo):
+  async def on_message_edit(self, payload, eo):
     print("founf")
     #self.log_data['update_count']=int(maybe(re.search(r"(?<=update_count:)\d+", message2.content)).group(0) or 0)
     self.log_data['update_count']+=1
@@ -55,18 +55,20 @@ class MessageReview:
     await self.message.add_reaction("🔄")
     
     
-  def post_message(self):
+  async def post_message(self):
     jobs_cb_msg= f"{self.text_log}{self.job_text}"
     self.content=jobs_cb_msg
     await self.message.edit(content=bl_q(jobs_cb_msg))
     print(bl_q(jobs_cb_msg))
     
   def analyze_info(self, content):
-    self.usrstr= re.search(r"(?<=user:)\S+",content).group(0)
-    self.usrid= re.search(r"(?<=usr:)\d+",content).group(0)
-    self.job_id= re.search(r"(?<=id:)\d+",content).group(0)
+    self.usrstr= maybe(re.search(r"(?<=user:)\S+",content)).group(0)
+    self.usrid= maybe(re.search(r"(?<=usr:)\d+",content)).group(0)
+    self.job_id= maybe(re.search(r"(?<=id:)\d+",content)).group(0)
 
     mc=content.split("=#")
+    if len(mc)<2 or self.usrstr == None or self.usrid == None or self.job_id == None:
+      return False
     self.log_text = mc[0].replace("> ","")
     self.job_text = mc[1].replace("> ","")
 
@@ -114,7 +116,7 @@ class MessageReview:
     out+=self.text_lf_bottom+"\n"
     self.log_text=out
     
-  def on_reaction_add(self,payload):
+  async def on_reaction_add(self,payload):
 
     
     #print(int(self.usrid))

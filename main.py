@@ -1,5 +1,5 @@
 # bot.py
-from initialize import jobsdb, q_set, botdb, col_sett, bot
+from initialize import jobsdb, q_set, botdb, col_sett, bot, TOKEN
 import os
 import random
 #import threading
@@ -17,7 +17,7 @@ import re
 from pymaybe import maybe
 import auto_message
 import command1
-from auto_message import mr_pools, mj_pools, br_pools, ch_pools
+from a import mr_pools, mj_pools, br_pools, ch_pools
 from message_job import MessageJob
 
 @bot.event
@@ -30,7 +30,7 @@ async def on_message(message):
       return
     if type(message.channel) is discord.TextChannel:
       if message.channel.name in col_sett["channel"]:
-        
+        response=""
         ch = bot.is_channel_exist(col_sett["review_ch"])
         if not ch:
           response = f"review channel doesnt exist! please set one type {col_sett['pre']}help for help"
@@ -60,7 +60,7 @@ async def on_raw_message_edit(payload):
      
 
 print(col_sett['channel'])
-bot.run("OTcxOTQ1NjI4MTY5MDExMjQw.YnR45w.fXTn_RxzOByKuHnDH-5__qZhz78")
+bot.run(TOKEN)
 
 
 

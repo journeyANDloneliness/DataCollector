@@ -4,54 +4,56 @@ from initialize import bot, col_sett
 from message_job import MessageJob
 from message_review import MessageReview
 from bot_reply import BotReply
+from pymaybe import maybe
+from a import mr_pools, mj_pools, br_pools, ch_pools
 
-mr_pools=[]
-mj_pools=[]
-br_pools=[]
-ch_pools=[]
+
   
-class AutoMessage:
-  def on_ready(self, payload):pass
-  def on_message_edit(self, payload):pass
-  def on_reaction_add(self, payload):pass
-  def on_message_delete(self,payload):pass
-  def on_create(self, payload):pass
-    
+
 @bot.event
 async def on_ready():
   
   print("fetch started...")
   async for guild in bot.fetch_guilds():
     for channel in await  guild.fetch_channels():
-      ch_pools.append(channel)
-      if channel.name == col_sett['review']:
+      ch_pools[channel.id]=channel
+
+      if channel.name == col_sett['review_ch']:
         async for message in channel.history(limit=200):
-          d=re.search(r"(?<=id:)\d+", message.content).group(0)
+          d=maybe(re.search(r"(?<=id:)\d+", message.content)).group(0)
           if d and message.author == bot.user:
             mr=MessageReview()
             mr.message = message
-            mr_pools[message.id]=mr
-            mr_pools[d]=mr
-    for channel in ch_pools:
+            #put to chace only if its info somehow really are message review
+
+            if not mr.analyze_info(message.content):
+
+              mr_pools[message.id]=mr
+              mr_pools[str(d)]=mr
+    for channel in ch_pools.values():
       if channel.name in col_sett['channel']:
         async for message in channel.history(limit=200):
           if message.author != bot.user:
             continue
-          d=re.search(r"(?<=id:)\d+",message.content).group(0)
+          d=maybe(re.search(r"(?<=id:)\d+",message.content)).group(0)
           if d:    
-            br=BotReply()
-            br.message = message
-            br.analyze_info(message)
+            #put to chace only if its has reference/ reply to jobs post
             ms = await channel.fetch_message(message.reference.message_id) 
-            mj=MessageJob()
-            mj.before = ms
-            mj.add_listener(mr_pools[d])
-            mj.add_listener(br)  
-            mr_pools[d].add_listener(br)
-            mj_pools[mj.id] = mj
-            mj_pools[d]=mj
-            br_pools[message.id] = br
-            br_pools[d]=br
+            if ms:
+              br=BotReply()
+              br.message = message
+              br.analyze_info(message.content)
+              mj=MessageJob()
+              mj.before = ms
+              if str(d) in mr_pools.keys():
+                mj.add_listener(mr_pools[str(d)])
+                mr_pools[str(d)].add_listener(br)
+              mj.add_listener(br)  
+              
+              mj_pools[ms.id] = mj
+              mj_pools[str(d)]=mj
+              br_pools[message.id] = br
+              br_pools[str(d)]=br
   
   print("fetch done")
   

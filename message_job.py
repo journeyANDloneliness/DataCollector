@@ -1,9 +1,9 @@
 from initialize import jobsdb, q_set, botdb, col_sett, bot
-from auto_message import AutoMessage
+from a import AutoMessage
 from message_review import MessageReview
 from bot_reply import BotReply
 import format_filter as ff
-from auto_message import mr_pools, mj_pools, br_pools, ch_pools
+from a import mr_pools, mj_pools, br_pools, ch_pools
 
 class MessageJob(AutoMessage):
   def __init__(self):
@@ -13,19 +13,19 @@ class MessageJob(AutoMessage):
     
     self.before=None
     self.after=None
-    self.job_id
+    self.job_id=-1
     
   def add_listener(self,l):
     self.listeners.append(l)
 
-  def on_create(self, message, oe):
+  async def on_create(self, message, oe):
     self.message = message
     self.job_id = col_sett['last_id']
     mr=self.make_message_review(None)
     br=self.make_bot_reply(None)
     mr.add_listener(br)
     
-  def on_message_edit(self, payload,oe):
+  async def on_message_edit(self, payload,oe):
     print("didnt clled")
     self.before = self.message
     self.message=await self.channel.fetch_message(self.message.id)

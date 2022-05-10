@@ -2,6 +2,7 @@ from initialize import jobsdb, q_set, botdb, col_sett, bot
 from helper import bl_q, bt_q
 import format_filter as ff
 import re
+from pymaybe import maybe
 
 class BotReply:
   def __init__(self):
@@ -20,11 +21,14 @@ class BotReply:
     self.listeners.append(l)
     
   def analyze_info(self, content):
-    self.usrstr= re.search(r"(?<=user:)\S+",content).group(0)
-    self.usrid= re.search(r"(?<=usr:)\d+",content).group(0)
-    self.job_id= re.search(r"(?<=id:)\d+",content).group(0)
+    self.usrstr= maybe(re.search(r"(?<=user:)\S+",content)).group(0)
+    self.usrid= maybe(re.search(r"(?<=usr:)\d+",content)).group(0)
+    self.job_id= maybe(re.search(r"(?<=id:)\d+",content)).group(0)
+
+    #if len(mc)<2 or self.usrstr == None or self.usrid == None or self.job_id == None:
+    # return False
     
-  def on_create(self,message,oe):
+  async def on_create(self,message,oe):
     data=ff.make_data(oe.message.content)
     a=ff.check_format(data)
   
@@ -34,7 +38,7 @@ class BotReply:
     self.usrid= oe.message.author.id
     self.job_id=col_sett['last_id']
     
-  def on_reaction_add(self, payload, oe, value=1):
+  async def on_reaction_add(self, payload, oe, value=1):
     if value:
       await self.message.edit(content =bt_q(f"✅  <@!{self.usrid}>\
           your jobs with id:{self.jobid} succesfully reviewed"))
@@ -44,7 +48,7 @@ class BotReply:
       await self.message.edit(content =bt_q(f"❌  hi <@!{self.usrid}>\
           your jobs with id:{self.jobid}didn't pass reviewing phase. please check again how to post job correctly or ask @manager"))
 
-  def on_message_edit(self,payload,oe,**kwargs):
+  async def on_message_edit(self,payload,oe,**kwargs):
     response=""
     if kwargs['value']:
       response= f" <@!{self.usrid}>\
