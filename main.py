@@ -38,7 +38,7 @@ async def on_message(message):
           col_sett['last_id']+=1
           mj = MessageJob()
           mj.message = message
-          mj.on_create(message,None)
+          await mj.on_create(message,None)
 
           
         await message.reply(bt_q(response))
@@ -50,12 +50,12 @@ async def on_message(message):
 async def on_raw_reaction_add(payload):
   if ch_pools[payload.channel_id].name == col_sett["review_ch"]:
     if payload.message_id in mr_pools.keys():
-      mr_pools[payload.message_id].on_reaction_add(payload,None)
+      await mr_pools[payload.message_id].on_reaction_add(payload,None)
 @bot.event
 async def on_raw_message_edit(payload):
   if ch_pools[payload.channel_id].name in col_sett["channel"]:
     if payload.message_id in mr_pools.keys():
-      mj_pools[payload.message_id].on_message_edit(payload,None)
+      await mj_pools[payload.message_id].on_message_edit(payload,None)
 
      
 
