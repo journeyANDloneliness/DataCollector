@@ -12,9 +12,9 @@ data=	{
     "user":-1,
     "full_message":"",
     "summary":{
-      "contact":"",
-      "sallary":{},
-      "fullfiled":{}
+      #"contact":"",
+      #"sallary":{},
+      #"fullfiled":{}
     },
     "manage":{
       "reviews":[],
@@ -92,7 +92,7 @@ def check_format(data):
   out=""
   if data["type"]==0:
     out="❌ either [hire] or [hiring] tag is required\n"
-  if len(data)<8:
+  if len(data['summary'])<5:
     out+="❌ your jobs contains too little information\n"
 
   if out!="":

@@ -23,3 +23,6 @@ def bl_q(q):
   
 def get_time():
   return datetime.datetime.now().strftime("%d-%m-%y;%H-%M")
+  
+def get_time_s():
+  return datetime.datetime.now().strftime("%d-%m-%y;%H-%M-%S")

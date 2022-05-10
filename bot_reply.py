@@ -32,28 +32,30 @@ class BotReply:
     data=ff.make_data(oe.message.content)
     a=ff.check_format(data)
   
-    self.message=await oe.message.reply("")
-    self.on_message_edit(None,oe, value=1 if a else 0,filter=a)
+    self.message=await oe.message.reply(".........")
     self.usrstr= oe.message.author
     self.usrid= oe.message.author.id
     self.job_id=col_sett['last_id']
+    await self.on_message_edit(None,oe, value=1 if a else 0,filter=a)
+ 
     
   async def on_reaction_add(self, payload, oe, value=1):
     if value:
       await self.message.edit(content =bt_q(f"✅  <@!{self.usrid}>\
-          your jobs with id:{self.jobid} succesfully reviewed"))
+          your jobs with id:{self.job_id} succesfully reviewed"))
     else:
       print('didnt pass...')
       
       await self.message.edit(content =bt_q(f"❌  hi <@!{self.usrid}>\
-          your jobs with id:{self.jobid}didn't pass reviewing phase. please check again how to post job correctly or ask @manager"))
+          your jobs with id:{self.job_id}didn't pass reviewing phase. please check again how to post job correctly or ask @manager"))
 
   async def on_message_edit(self,payload,oe,**kwargs):
     response=""
     if kwargs['value']:
       response= f" <@!{self.usrid}>\
-          your jobs with id:{self.jobid}\n"+kwargs['filter']
+          your jobs with id:{self.job_id}\n"+kwargs['filter']
     else:
       response=f" <@!{self.usrid}>\
-          your jobs with id:{self.jobid} waiting for review... please wait..."
-    await self.message.edit(bt_q(response))
+          your jobs with id:{self.job_id} waiting for review... please wait..."
+    await self.message.edit(content=bt_q(response))
+    print("why>???????? inever called")
