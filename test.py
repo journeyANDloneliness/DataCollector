@@ -28,3 +28,10 @@ a=maybe(re.search(r"(?<=delete:).+\n","""
 	""")).group(0) or ""
 print("a"+a+"a")
 print(datetime.datetime.now().strftime("%d-%m-%y;%H-%M-%S"))
+
+y=1
+if y:
+	x=True
+else:
+	x=False
+print(x)

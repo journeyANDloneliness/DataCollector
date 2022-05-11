@@ -3,6 +3,7 @@ from helper import bl_q, bt_q
 import format_filter as ff
 import re
 from pymaybe import maybe
+from a import br_pools
 
 class BotReply:
   def __init__(self):
@@ -35,8 +36,13 @@ class BotReply:
     self.usrstr= oe.message.author
     self.usrid= oe.message.author.id
     self.job_id=col_sett['last_id']
+    self.replied_to = oe.message
     if not col_sett['show_info']:
       return
+    print("why u always calling me????")
+
+    print(col_sett['show_info'])
+    print("why u always calling me????")
     self.message=await oe.message.reply(".........")
     await self.on_message_edit(None,oe, value=1 if a else 0,filter=a)
  
@@ -45,8 +51,8 @@ class BotReply:
     if not col_sett['show_info']:
       return
     if not self.message:
-      self.message=await oe.message.reply(".........")
-
+      self.message=await replied_to.message.reply(".........")
+      br_pools[self.message.id]=self
     if value:
       await self.message.edit(content =bt_q(f"✅  <@!{self.usrid}>\
           your jobs with id:{self.job_id} succesfully reviewed"))
@@ -60,8 +66,8 @@ class BotReply:
     if not col_sett['show_info']:
       return
     if not self.message:
-      self.message=await oe.message.reply(".........")
-      
+      self.message=await replied_to.message.reply(".........")
+      br_pools[self.message.id]=self
     response=""
     if kwargs['value']:
       response= f" <@!{self.usrid}>\

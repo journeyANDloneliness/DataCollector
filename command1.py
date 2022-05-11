@@ -131,10 +131,11 @@ async def set_pre(ctx, cmd, *args):
 async def set_pre(ctx, cmd, *args):
   print('u')
 
-  if cmd:
+  if int(cmd):
     col_sett['show_info']=True
   else:
     col_sett['show_info']=False
+    print("print false please!")
 
   botdb.update_one(q_set,  {"$set":col_sett}, upsert=True)
  

@@ -72,5 +72,6 @@ class MessageJob(AutoMessage):
     await br.on_create(self.message,self)
     
     self.add_listener(br)
-    br_pools[br.message.id]=br
+    if br.message:
+      br_pools[br.message.id]=br
     return br
