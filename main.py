@@ -67,7 +67,9 @@ async def on_raw_message_edit(payload):
 
       await mj_pools[payload.message_id].on_message_edit(payload,None)
 
-     
+@bot.event
+async def on_guild_channel_create(channel):
+  ch_pools[channel.id]=channel
 
 print(col_sett['channel'])
 bot.run(TOKEN)

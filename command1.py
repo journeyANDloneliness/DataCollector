@@ -109,10 +109,11 @@ async def set_review(ctx, cmd, *args):
   """, inline=False)
      
     msg=await ch.send(embed=embedVar)
-    await msg.pin()
     col_sett['review_ch'] = cmd
     response = f"channel {cmd} will used for reviewing jobs"
     botdb.update_one(q_set,  {"$set":col_sett}, upsert=True)
+    await msg.pin()
+    
   await ctx.send(bl_q(response))
 
 @bot.command(name='pre', help="""

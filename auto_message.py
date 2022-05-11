@@ -38,7 +38,7 @@ async def cache_data(limit=20):
               mr_pools[message.id]=mr
               mr_pools[str(d)]=mr
     for channel in ch_pools.values():
-      if channel.name in col_sett['channel']:
+      if channel.name in col_sett['channel']and type(channel) is discord.TextChannel:
         async for message in channel.history(limit=20):
           if message.author != bot.user:
             continue
