@@ -44,6 +44,9 @@ if 'last_id' not in col_sett:
   col_sett['last_id'] = 0
 if 'store_coll' not in col_sett:
   col_sett['store_coll'] = 'coll1'
+if 'show_info' not in col_sett:
+  col_sett['show_info'] = True
+
 
 jobsdb = mydb[col_sett['store_coll']]
 

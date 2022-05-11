@@ -126,3 +126,18 @@ async def set_pre(ctx, cmd, *args):
  
   await ctx.send(bt_q('prefix command succesfylly changed!'))
 
+@bot.command(name='show_info', help="""
+             show_info [0=false | 1=true]""")
+async def set_pre(ctx, cmd, *args):
+  print('u')
+
+  if cmd:
+    col_sett['show_info']=True
+  else:
+    col_sett['show_info']=False
+
+  botdb.update_one(q_set,  {"$set":col_sett}, upsert=True)
+ 
+  await ctx.send(bt_q('info succesfylly changed!'))
+
+
