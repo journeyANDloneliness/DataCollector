@@ -1,5 +1,5 @@
 # bot.py
-from initialize import jobsdb, q_set, botdb, col_sett, bot, TOKEN
+from initialize import in_sett, reconnect,  q_set, botdb, col_sett, bot, TOKEN
 import os
 import random
 #import threading
@@ -45,7 +45,7 @@ async def on_message(message):
 
           
         
-        botdb.update_one(q_set,  {"$set":col_sett}, upsert=True)
+        reconnect(lambda : in_sett['bot_coll'].update_one(q_set,  {"$set":col_sett}, upsert=True))
         
 
           

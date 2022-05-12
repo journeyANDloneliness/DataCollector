@@ -1,5 +1,5 @@
 # bot.py
-from initialize import jobsdb, q_set, botdb, col_sett, bot
+from initialize import in_sett, reconnect,  q_set, botdb, col_sett, bot
 import os
 import random
 #import threading
@@ -51,7 +51,7 @@ async def on_message(message):
             await ch.send(bl_q(jobs_cb_msg))
           
         await message.reply(bt_q(response))
-        botdb.update_one(q_set,  {"$set":col_sett}, upsert=True)
+        reconnect(lambda : in_sett['bot_coll'].update_one(q_set,  {"$set":col_sett}, upsert=True))
         
 @bot.event
 async def on_message_edit(before, after):
@@ -163,7 +163,7 @@ async def on_reaction_add(reaction,user):
                 "date":datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
               if '_id' in data: 
                 del data['_id'] 
-              jobsdb.update_one({"idx":idn}, {"$set":data},upsert=True)
+              reconnect(lambda: in_sett['job_coll'].update_one({"idx":idn}, {"$set":data},upsert=True))
               await message.add_reaction("☁")
               
               breako=True 

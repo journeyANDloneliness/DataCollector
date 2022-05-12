@@ -1,4 +1,4 @@
-from initialize import jobsdb, q_set, botdb, col_sett, bot
+from initialize import in_sett, reconnect,  q_set, botdb, col_sett, bot
 from a import AutoMessage
 from message_review import MessageReview
 from bot_reply import BotReply

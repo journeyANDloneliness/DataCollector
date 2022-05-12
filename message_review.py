@@ -1,4 +1,4 @@
-from initialize import jobsdb, q_set, botdb, col_sett, bot
+from initialize import in_sett, reconnect, q_set, botdb, col_sett, bot
 from helper import bl_q, bt_q, get_time, get_time_s
 import re
 import json
@@ -160,7 +160,9 @@ class MessageReview:
         del data['_id'] 
       ppx = pp.PrettyPrinter(indent=4)
       ppx.pprint(data)
-      jobsdb.update_one({"job_id":self.job_id}, {"$set":data},upsert=True)
+      reconnect(lambda: in_sett['job_coll'].update_one({"job_id":self.job_id}, {"$set":data},upsert=True))
+
+
       await self.message.add_reaction("☁")
 
             

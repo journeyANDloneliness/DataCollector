@@ -1,4 +1,4 @@
-from initialize import jobsdb, q_set, botdb, col_sett, bot, mydb
+from initialize import in_sett, reconnect, q_set, botdb, col_sett, bot, mydb
 from helper import bl_q, bt_q
 import discord
 import auto_message as am
@@ -21,8 +21,8 @@ async def clear(ctx, cmd="", *args):
   change mongo db collection""")
 async def x(ctx, cmd, *args):
   col_sett['store_coll']=cmd
-  jobsdb = mydb[col_sett['store_coll']]
-  botdb.update_one(q_set,  {"$set":col_sett}, upsert=True)
+  in_sett['job_coll'] = mydb[col_sett['store_coll']]
+  reconnect(lambda : in_sett['bot_coll'].update_one(q_set,  {"$set":col_sett}, upsert=True))
   await ctx.send(bt_q(f"success change collection. from now i will store data to collection{cmd}"))
     
 @bot.command(name='channel', help="""
@@ -42,7 +42,7 @@ async def test(ctx, cmd, *args):
       response = "messages from channel '#"+cmd\
       +"' will be collected"
       print(col_sett['channel'])
-      botdb.update_one(q_set,  {"$set":col_sett}, upsert=True)
+      reconnect(lambda : in_sett['bot_coll'].update_one(q_set,  {"$set":col_sett}, upsert=True))
       ch = bot.is_channel_exist(cmd)
       embedVar = discord.Embed(title="JOBS POST RULES",   description="", color=0x1f45ee)
       embedVar.add_field(name="Job format example:", value="""
@@ -111,7 +111,7 @@ async def set_review(ctx, cmd, *args):
     msg=await ch.send(embed=embedVar)
     col_sett['review_ch'] = cmd
     response = f"channel {cmd} will used for reviewing jobs"
-    botdb.update_one(q_set,  {"$set":col_sett}, upsert=True)
+    reconnect(lambda : in_sett['bot_coll'].update_one(q_set,  {"$set":col_sett}, upsert=True))
     await msg.pin()
     
   await ctx.send(bl_q(response))
@@ -122,7 +122,7 @@ async def set_pre(ctx, cmd, *args):
   print('u')
 
   col_sett['pre']=cmd
-  botdb.update_one(q_set,  {"$set":col_sett}, upsert=True)
+  reconnect(lambda : in_sett['bot_coll'].update_one(q_set,  {"$set":col_sett}, upsert=True))
  
   await ctx.send(bt_q('prefix command succesfylly changed!'))
 
@@ -137,7 +137,7 @@ async def set_pre(ctx, cmd, *args):
     col_sett['show_info']=False
     print("print false please!")
 
-  botdb.update_one(q_set,  {"$set":col_sett}, upsert=True)
+  reconnect(lambda : in_sett['bot_coll'].update_one(q_set,  {"$set":col_sett}, upsert=True))
  
   await ctx.send(bt_q('info succesfylly changed!'))
 

@@ -1,4 +1,4 @@
-from initialize import jobsdb, q_set, botdb, col_sett, bot
+from initialize import in_sett, reconnect,  q_set, botdb, col_sett, bot
 from helper import bl_q, bt_q
 import format_filter as ff
 import re
