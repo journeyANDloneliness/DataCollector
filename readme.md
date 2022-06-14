@@ -10,7 +10,7 @@ by default use collection from rum_data1.
 1. bot setting collection loaded into list in_sett['job_coll']
 2. jobs collection loaded into list in_sett['job_coll']
 
-import in_sett['job_coll'] as your need to manipulate collection thats rendered on website
+import initialize.py in_sett['job_coll'] as your need to manipulate collection thats rendered on website
 
  #### extending: 
  
