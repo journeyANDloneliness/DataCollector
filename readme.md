@@ -1,11 +1,9 @@
 ### BOT-DATA-COLLECTOR
 
- - [use database](####use-database)
- - [extending](####extending )
- - [note when publishing](##other-info)
-
+ - [use database](#use-database)
+ - [extending](#extending )
+ - [note when publishing](#other-info)
  #### use database
- 
  there are 2 collection loaded from mongo_db.
 1. bot setting collection loaded into list coll_sett
 2. jobs collection loaded into list mydb. by default use rum_data1. 
