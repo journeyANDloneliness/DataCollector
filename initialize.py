@@ -14,7 +14,15 @@ import format_filter as ff
 import helper as h
 import re
 from pymaybe import maybe
+"""
+the most top program. called first when main.py imported it.
+for loading env file, connect and load data from mongo_db cloud.
+there are 2 collection loaded.
+1. bot setting collection loaded into list coll_sett
+2. jobs collection loaded into list mydb. by default use rum_data1. mongodb will created 
+this collection automatically if doesnt exist.
 
+"""
 modb = MongoClient("mongodb+srv://rum:12345@cluster0.xtg4o.mongodb.net/rum_data1?retryWrites=true&w=majority", server_api=ServerApi('1'))
 mydb = modb["rum_data1"]
 
@@ -40,7 +48,11 @@ in_sett={}
 in_sett['job_coll']=mydb[col_sett['store_coll']]
 in_sett['bot_coll']=mydb['bot_settings']
 
+
 def reconnect(q):
+	"""called everytime need something from cloud.
+	because sometimes the connection shut down. the bot need to check
+	whether the connection to cloud exist?"""
 	res = q()
 	if not res:
 		modb = MongoClient("mongodb+srv://rum:12345@cluster0.xtg4o.mongodb.net/rum_data1?retryWrites=true&w=majority", server_api=ServerApi('1'))

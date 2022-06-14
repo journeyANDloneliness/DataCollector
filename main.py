@@ -19,10 +19,19 @@ import auto_message
 import command1
 from a import mr_pools, mj_pools, br_pools, ch_pools
 from message_job import MessageJob
+import logging
+"""
+after the code inside initialize.py and auto_message.py executed by import
+here is the start of the program where the bot read the changes in discord server.
+we use on_raw_(event_name) instead of on_(event_name) 
+because this bot has ability to fetch any message before it's on.
+thats whats auto_message.py do. while initialize.py is conecting to database/load env/read bot settings.
+"""
 
 @bot.event
 async def on_message(message):
-    
+    """since message sent will always new. we doesn't use on_raw..
+    it's listen for any  incoming message in job's channel.(setup by !channel (channel_name)) """
     if message.author == bot.user:
       return
     await bot.process_commands(message)
@@ -31,6 +40,7 @@ async def on_message(message):
     if type(message.channel) is discord.TextChannel:
       if message.channel.name in col_sett["channel"]:
         
+
         ch = bot.is_channel_exist(col_sett["review_ch"])
         if not ch:
           response = f"review channel doesnt exist! please set one type {col_sett['pre']}help for help"
@@ -51,6 +61,8 @@ async def on_message(message):
           
 @bot.event
 async def on_raw_reaction_add(payload):
+  """is reaction added ? whter the message is already exist before the bot was on?
+  it's listen to any reaction changes"""
   print("goooooo")
   if ch_pools[payload.channel_id].name == col_sett["review_ch"]:
     if payload.message_id in mr_pools.keys():
@@ -58,20 +70,25 @@ async def on_raw_reaction_add(payload):
       await mr_pools[payload.message_id].on_reaction_add(payload,None)
 @bot.event
 async def on_raw_message_edit(payload):
-  
+  """is message edited? whter the message is already exist before the bot was on?
+  it's listen to any edited message"""
 
   if ch_pools[payload.channel_id].name in col_sett["channel"]:
     print("goooooo uuuu")
     if payload.message_id in mj_pools.keys():
       print("goooooo uuuu")
-
+      """mj == mesage_job. an object pools 
+      """
       await mj_pools[payload.message_id].on_message_edit(payload,None)
 
 @bot.event
 async def on_guild_channel_create(channel):
+  """because we also need new created channel to exist in the pools, otherwise
+  the bot don't know if new channel exist"""
   ch_pools[channel.id]=channel
 
 print(col_sett['channel'])
+"""run the bot with token from env"""
 bot.run(TOKEN)
 
 

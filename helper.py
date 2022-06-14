@@ -1,7 +1,9 @@
 from discord.ext import commands
 import re
 import datetime
-
+"""
+helper functions
+"""
 def is_channel_exist(self, name=''):     
   for ch in self.get_all_channels():
     if ch.name == name:

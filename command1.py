@@ -2,9 +2,11 @@ from initialize import in_sett, reconnect, q_set, botdb, col_sett, bot, mydb
 from helper import bl_q, bt_q
 import discord
 import auto_message as am
-
+"""command1. named it '1' because if u wants to add aditional command
+please use other file. and import it to main.py  """
 @bot.command(name='activate', help="activate [amount].activate the message before i login")
 async def activate(ctx, cmd, *args):
+    """cache data for the bot to listen to"""
     am.clear_cache_data()
 
     await am.cache_data(cmd)
@@ -13,6 +15,9 @@ async def activate(ctx, cmd, *args):
 
 @bot.command(name='clear', help="clear cache data manually")
 async def clear(ctx, cmd="", *args):
+    """clear the cached data exist in the pools! maybe something wrong?
+    or the jobs channel changed? change server? or too many data and bot become slow?
+    run this command!"""
     am.clear_cache_data()
     response = f"cache cleared!"
     await ctx.send(bt_q(response))
@@ -20,6 +25,7 @@ async def clear(ctx, cmd="", *args):
 @bot.command(name='mongodb_coll', help="""mongodb_coll [collection name you want to strore]
   change mongo db collection""")
 async def x(ctx, cmd, *args):
+  """change which collection should this bot store?"""
   col_sett['store_coll']=cmd
   in_sett['job_coll'] = mydb[col_sett['store_coll']]
   reconnect(lambda : in_sett['bot_coll'].update_one(q_set,  {"$set":col_sett}, upsert=True))
@@ -28,7 +34,8 @@ async def x(ctx, cmd, *args):
 @bot.command(name='channel', help="""
              channel [channel name] [opt]
              """)
-async def test(ctx, cmd, *args):
+async def set_channel(ctx, cmd, *args):
+  """set channel for bot to listen to"""
   response = "x"
 
   if not any(ch.name == cmd for ch in bot.get_all_channels()):
@@ -90,6 +97,8 @@ async def test(ctx, cmd, *args):
 @bot.command(name='review', help="""
              review [channel name] [opt]""")
 async def set_review(ctx, cmd, *args):
+  """command for set the review channel. if no review channel specified the bot will ask
+  for new!"""
   print('u')
   if not bot.is_channel_exist(cmd):
     response = "no such channel found"
@@ -119,6 +128,8 @@ async def set_review(ctx, cmd, *args):
 @bot.command(name='pre', help="""
              pre [any}""")
 async def set_pre(ctx, cmd, *args):
+  """change bot prefix. default '!'"""
+
   print('u')
 
   col_sett['pre']=cmd
@@ -128,7 +139,9 @@ async def set_pre(ctx, cmd, *args):
 
 @bot.command(name='show_info', help="""
              show_info [0=false | 1=true]""")
-async def set_pre(ctx, cmd, *args):
+async def set(ctx, cmd, *args):
+  """a command to set wheter the bot should give verbose information to user when
+  they post new job? use !show_info 0 will disable the bot for sending verbose message to user. """
   print('u')
 
   if int(cmd):
