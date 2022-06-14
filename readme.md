@@ -11,6 +11,7 @@
  #### extending: 
  
  ---> listen to changes in message jobs when user edit it:
+
  extends MessageJob class and override on_message_edit function.
  and import your derived class to auto_message,py
 
@@ -19,8 +20,9 @@
 
  
  ---> add additional reply when user posted a job:
- it's turned off by default. a command to turn it on by `!show_info 1`
-  extends MessageJob class and override on_message_edit function 
+
+ it's turned off by default. a command to turn it on is `!show_info 1`.
+  extends BotReply class and override on_message_edit function 
   to add aditional function when user edit message(MessageJob).
   and on_reaction_add when reviewer give reaction to review posted by bot(MessageReview).
  and import your derived class to auto_message,py
@@ -29,7 +31,8 @@
 
  
  
----> add additional review 
+---> add additional review:
+
  extends MessageReview class and 
  same as BotReply just overidde any function thats fits your needed.
  and import your derived class to auto_message,py
