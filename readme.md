@@ -4,10 +4,14 @@
  - [extending](#extending )
  - [note when publishing](#other-info)
  #### use database
- there are 2 collection loaded from mongo_db.
-1. bot setting collection loaded into list coll_sett
-2. jobs collection loaded into list mydb. by default use rum_data1. 
- 
+there are 2 collection loaded.
+by default use collection from rum_data1.
+
+1. bot setting collection loaded into list in_sett['job_coll']
+2. jobs collection loaded into list in_sett['job_coll']
+
+import in_sett['job_coll'] as your need to manipulate collection thats rendered on website
+
  #### extending: 
  
  ---> listen to changes in message jobs when user edit it:

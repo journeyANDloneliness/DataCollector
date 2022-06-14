@@ -15,12 +15,15 @@ import helper as h
 import re
 from pymaybe import maybe
 """
-the most top program. called first when main.py imported it.
+this is file is for initializing. called first when main.py imported it.
 for loading env file, connect and load data from mongo_db cloud.
 there are 2 collection loaded.
-1. bot setting collection loaded into list coll_sett
-2. jobs collection loaded into list mydb. by default use rum_data1. mongodb will created 
-this collection automatically if doesnt exist.
+by default use collection from rum_data1.
+
+1. bot setting collection loaded into list in_sett['job_coll']
+2. jobs collection loaded into list in_sett['job_coll']
+
+import in_sett['job_coll'] as your need to manipulate collection thats rendered on website
 
 """
 modb = MongoClient("mongodb+srv://rum:12345@cluster0.xtg4o.mongodb.net/rum_data1?retryWrites=true&w=majority", server_api=ServerApi('1'))
