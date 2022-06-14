@@ -24,8 +24,8 @@ import logging
 after the code inside initialize.py and auto_message.py executed by import
 here is the start of the program where the bot read the changes in discord server.
 we use on_raw_(event_name) instead of on_(event_name) 
-because this bot has ability to fetch any message before it's on.
-thats whats auto_message.py do. while initialize.py is conecting to database/load env/read bot settings.
+because this bot has ability to fetch any message before it's turned on,
+thats whats auto_message.py do. while initialize.py is conecting to database/load env/read bot settings etc...
 """
 
 @bot.event
