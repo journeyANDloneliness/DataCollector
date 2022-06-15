@@ -14,6 +14,7 @@ import format_filter as ff
 import helper as h
 import re
 from pymaybe import maybe
+
 """
 this is file is for initializing. called first when main.py imported it.
 for loading env file, connect and load data from mongo_db cloud.
@@ -34,10 +35,16 @@ q_set={"bot_name":"dataCollector"}
 col_sett=botdb.find_one(q_set)
 print(col_sett)
 
+TOKEN = None
 
+is_prod = os.environ.get('IS_HEROKU', None)
 
-load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
+if is_prod:
+	TOKEN = os.getenv('DISCORD_TOKEN')
+else
+	load_dotenv()
+	TOKEN = os.getenv('DISCORD_TOKEN')
+
 if 'pre' not in col_sett:
 	col_sett['pre'] ='!'
 
