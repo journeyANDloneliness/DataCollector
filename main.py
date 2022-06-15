@@ -89,7 +89,7 @@ async def on_guild_channel_create(channel):
 
 print(col_sett['channel'])
 """run the bot with token from env"""
-bot.run(TOKEN)
+bot.run('OTcxOTQ1NjI4MTY5MDExMjQw.GmQjH-.swk7vCTlcPoDS2Ygymef9J0a_mfKm2PzW6MUvg')
 
 
 
