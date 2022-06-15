@@ -41,7 +41,7 @@ is_prod = os.environ.get('IS_HEROKU', None)
 
 if is_prod:
 	TOKEN = os.getenv('DISCORD_TOKEN')
-else
+else:
 	load_dotenv()
 	TOKEN = os.getenv('DISCORD_TOKEN')
 
