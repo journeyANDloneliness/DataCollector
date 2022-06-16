@@ -5,6 +5,7 @@ import json
 import pprint as pp
 from pymaybe import maybe
 import format_filter as ff
+import discord
 
 class MessageReview:
   def __init__(self):
@@ -29,8 +30,15 @@ class MessageReview:
   def add_listener(self,l):
     self.listeners.append(l)
 
-  async def on_create(self, message, eo=None):           
-    self.content= f"#{'='*29}\n```user:{message.author} usr:{message.author.id} id:{col_sett['last_id']}```\n{'='*29}#\n {message.content}"
+  async def on_create(self, message, eo=None):        
+    embedVar = discord.Embed(color=0x1f45ee)
+    embedVar.add_field(name="Information:", value=f"#{'='*29}\n```user:{message.author} usr:{message.author.id} \
+    id:{col_sett['last_id']}```\n{'='*29}#")   
+    embedVar.add_field(name="Job message:", value=f"\n {message.content}")  
+
+    self.content= f"#{'='*29}\n```user:{message.author} usr:{message.author.id} \
+    id:{col_sett['last_id']}```\n{'='*29}#\n {message.content}"
+
     self.usrstr=str(message.author)
     self.usrid=message.author.id
     self.job_id = col_sett['last_id']
@@ -39,7 +47,9 @@ class MessageReview:
     #a message which this review listen to the their change
     self.msg_refer_to=message
     print(bl_q(self.content))      
-    self.message=await self.channel.send(bl_q(self.content))
+
+
+    self.message=await self.channel.send(embed=embedVar)
 
   async def on_message_edit(self, payload, eo, **kwargs):
     print("founf")
@@ -58,12 +68,17 @@ class MessageReview:
     await self.post_message()
     await self.message.reply(bt_q(f"{self.usrstr} updated their jobs. check it now @manager"))
     await self.message.add_reaction("🔄")
-    
+
+
     
   async def post_message(self):
+    embedVar = discord.Embed(color=0x1f45ee)
+    embedVar.add_field(name="Information:", value=f"{self.log_text}")   
+    embedVar.add_field(name="Job message:", value=f"{self.job_text}")  
+
     jobs_cb_msg= f"{self.log_text}{self.job_text}"
     self.content=jobs_cb_msg
-    await self.message.edit(content=bl_q(jobs_cb_msg))
+    await self.message.edit(embed=embedVar)
     print(bl_q(jobs_cb_msg))
     
   def analyze_info(self, content):

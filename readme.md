@@ -44,16 +44,15 @@ import initialize.py in_sett['job_coll'] as your need to manipulate collection t
     from message_job import YourClass as MessageReview
 
 -- listen to other discord.py events
+
 first version this bot only  listen to 5 events.
 add more as u need.
 
 -- add another command
-there already command1 file for list available command for the bot
+
+there already command1 file for list available command for the bot. 
 create new file eg. command2 for additional command and import it to main.py.
 
- 
-
-  -changes extending
  
  
 ## other info
