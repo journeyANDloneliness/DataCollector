@@ -115,6 +115,6 @@ check""", inline=False)
 
 """, inline=False)
   for channel in await  guild.fetch_channels():
-      if ch== col_sett['review_ch']:
-        msg=await ch.send(embed=embedVar)
+      if channel== col_sett['review_ch']:
+        msg=await channel.send(embed=embedVar)
         await msg.pin()

@@ -36,7 +36,7 @@ async def x(ctx, cmd, *args):
              """)
 async def set_channel(ctx, cmd, *args):
   """set channel for bot to listen to"""
-  response = "x"
+  response = "something  wrong..."
 
   if not any(ch.name == cmd for ch in bot.get_all_channels()):
     response = "no such channel found"

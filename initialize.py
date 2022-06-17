@@ -14,7 +14,11 @@ import format_filter as ff
 import helper as h
 import re
 from pymaybe import maybe
+import logging
 
+logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+	datefmt='%Y-%m-%d:%H:%M:%S',
+	level=logging.INFO)
 """
 this is file is for initializing. called first when main.py imported it.
 for loading env file, connect and load data from mongo_db cloud.
@@ -52,9 +56,15 @@ clientintents  = discord.Intents.all()
 bot = commands.Bot(command_prefix=lambda guild,message:col_sett['pre'])
 #bot.login("akystpobv939uGegax44hb_C5qKcX91C")
 
+class mydict(dict):
+	def update_setting(self,key, data):
+		col_sett[key] = data
+		reconnect(lambda : in_sett['bot_coll'].update_one(q_set,  {"$set":col_sett}, upsert=True))
 
+	def update_job(self, id, data):
+		reconnect(lambda: in_sett['job_coll'].update_one({"job_id":id}, {"$set":data},upsert=True))
 
-in_sett={}
+in_sett=mydict({})
 in_sett['job_coll']=mydb[col_sett['store_coll']]
 in_sett['bot_coll']=mydb['bot_settings']
 
@@ -99,4 +109,5 @@ def recheck_settings(col_sett):
 		col_sett['show_info'] = False
 
 recheck_settings(col_sett)
-print("initialize...")
+logger = logging.getLogger(__name__)
+logger.debug("initialize...")

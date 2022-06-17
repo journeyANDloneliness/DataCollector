@@ -2,7 +2,7 @@
 
  - [use database](#use-database)
  - [extending](#extending )
- - [note when publishing](#other-info)
+
  #### use database
 there are 2 collection loaded.
 by default use collection from rum_data1.
@@ -10,7 +10,21 @@ by default use collection from rum_data1.
 1. bot setting collection loaded into list in_sett['job_coll']
 2. jobs collection loaded into list in_sett['job_coll']
 
-import initialize.py in_sett['job_coll'] as your need to manipulate collection thats rendered on website
+import initialize.py in_sett['job_coll'] as your need to manipulate collection thats rendered on website.
+
+example add new setting:
+
+	
+	import in_sett
+	in_sett.update_setting(key="1",data='some data')
+
+add new job:
+
+
+	import in_sett
+	in_sett.update_job(id="1",data='some data')
+
+
 
  #### extending: 
  
@@ -55,12 +69,6 @@ create new file eg. command2 for additional command and import it to main.py.
 
  
  
-## other info
-when publish on github, please don't share .env file in github by `git rm --cached .env`
-otherwise if u want to publish to heroku re-add it with `git add -f .env`
-
-get heroku logs when error happened at runtime:
-heroku logs --tails
 
 
 

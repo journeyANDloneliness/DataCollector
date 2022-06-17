@@ -1,5 +1,5 @@
 # bot.py
-from initialize import in_sett, reconnect,  q_set, botdb, col_sett, bot, TOKEN
+from initialize import in_sett, reconnect,  q_set, botdb, col_sett, bot, TOKEN, logger
 import os
 import random
 #import threading
@@ -19,7 +19,7 @@ import auto_message
 import command1
 from a import mr_pools, mj_pools, br_pools, ch_pools
 from message_job import MessageJob
-import logging
+import cogs
 """
 after the code inside initialize.py and auto_message.py executed by import
 here is the start of the program where the bot read the changes in discord server.
@@ -63,10 +63,10 @@ async def on_message(message):
 async def on_raw_reaction_add(payload):
   """is reaction added ? whter the message is already exist before the bot was on?
   it's listen to any reaction changes"""
-  print("goooooo")
+  logger.debug("reaction event fired")
   if ch_pools[payload.channel_id].name == col_sett["review_ch"]:
     if payload.message_id in mr_pools.keys():
-      print("goooooo")
+      logger.debug("message that reacted exist in the pools")
       await mr_pools[payload.message_id].on_reaction_add(payload,None)
 @bot.event
 async def on_raw_message_edit(payload):
@@ -74,9 +74,11 @@ async def on_raw_message_edit(payload):
   it's listen to any edited message"""
 
   if ch_pools[payload.channel_id].name in col_sett["channel"]:
-    print("goooooo uuuu")
+    logger.debug("message edit event fired")
+    
     if payload.message_id in mj_pools.keys():
-      print("goooooo uuuu")
+      logger.debug("message exist in the pools")
+      
       """mj == mesage_job. an object pools 
       """
       await mj_pools[payload.message_id].on_message_edit(payload,None)
@@ -87,7 +89,7 @@ async def on_guild_channel_create(channel):
   the bot don't know if new channel exist"""
   ch_pools[channel.id]=channel
 
-print(col_sett['channel'])
+logger.debug(col_sett['channel'])
 """run the bot with token from env"""
 bot.run(TOKEN)
 

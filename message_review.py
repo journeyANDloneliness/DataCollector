@@ -32,9 +32,9 @@ class MessageReview:
 
   async def on_create(self, message, eo=None):        
     embedVar = discord.Embed(color=0x1f45ee)
-    embedVar.add_field(name="Information:", value=f"#{'='*29}\n```user:{message.author} usr:{message.author.id} \
-    id:{col_sett['last_id']}```\n{'='*29}#")   
-    embedVar.add_field(name="Job message:", value=f"\n {message.content}")  
+    embedVar.add_field(name="Information:", value=f"""#{'='*29}\n```user:{message.author} usr:{message.author.id} \
+    id:{col_sett['last_id']}```\n{'='*29}#""",inline=False)   
+    embedVar.add_field(name="Job message:", value=f"""\n {message.content}""",inline=False)  
 
     self.content= f"#{'='*29}\n```user:{message.author} usr:{message.author.id} \
     id:{col_sett['last_id']}```\n{'='*29}#\n {message.content}"
@@ -72,9 +72,9 @@ class MessageReview:
 
     
   async def post_message(self):
-    embedVar = discord.Embed(color=0x1f45ee)
-    embedVar.add_field(name="Information:", value=f"{self.log_text}")   
-    embedVar.add_field(name="Job message:", value=f"{self.job_text}")  
+    embedVar = discord.Embed( color=0x1f45ee)
+    embedVar.add_field(name="Information:", value=f"""{self.log_text}""",inline=False)   
+    embedVar.add_field(name="Job message:", value=f"""{self.job_text}""",inline=False)  
 
     jobs_cb_msg= f"{self.log_text}{self.job_text}"
     self.content=jobs_cb_msg

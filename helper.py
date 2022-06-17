@@ -9,7 +9,16 @@ def is_channel_exist(self, name=''):
     if ch.name == name:
       return ch
   return False
+
+async def check_channel(self,channel, name):
+  res = self.is_channel_exist(name)
+  if res:
+    return res
+  else:
+    await channel.send(f"channel with name {name} doesn't exist")
 commands.Bot.is_channel_exist = is_channel_exist
+commands.Bot.check_channel = check_channel
+
 
 def findnth(string, substring, n):
    if (n == 1):
